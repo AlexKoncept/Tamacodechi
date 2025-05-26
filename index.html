@@ -1,1 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tamacodechi - Le Tamagotchi des Développeurs</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome via CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Votre CSS personnalisé -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center p-4">
+    <div class="container mx-auto max-w-md">
+        <div class="bg-gray-800 rounded-3xl p-6 shadow-2xl border-4 border-cyan-400 relative overflow-hidden">
+            <!-- En-tête avec titre et niveau -->
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="text-2xl font-bold text-cyan-400">
+                    <i class="fas fa-code mr-2"></i>Tamacodechi
+                </h1>
+                <div class="bg-gray-700 px-3 py-1 rounded-full text-sm font-mono">
+                    Niveau: <span id="level">1</span>
+                </div>
+            </div>
 
+            <!-- Écran du Tamacodechi -->
+            <div class="tamagotchi-screen bg-black rounded-xl p-4 mb-6 h-64 flex flex-col items-center justify-center relative overflow-hidden">
+                <div id="pet-container" class="relative">
+                    <div id="pet" class="text-6xl pixel-art bounce-animation">👨‍💻</div>
+                    <div id="pet-status" class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs bg-black bg-opacity-70 px-2 py-1 rounded whitespace-nowrap"></div>
+                </div>
+                <div id="message" class="mt-4 text-center text-sm text-cyan-300 font-mono"></div>
+                <div id="evolution" class="absolute top-0 left-0 w-full h-full flex items-center justify-center hidden">
+                    <div class="text-4xl animate-pulse text-yellow-300">LEVEL UP!</div>
+                </div>
+            </div>
+
+            <!-- Barres de statut -->
+            <div class="space-y-3 mb-6">
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span><i class="fas fa-heart text-red-400 mr-1"></i> Santé</span>
+                        <span id="health-value">100%</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-2">
+                        <div id="health-bar" class="progress-bar bg-red-500 h-2 rounded-full" style="width: 100%"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span><i class="fas fa-hamburger text-yellow-400 mr-1"></i> Nourriture</span>
+                        <span id="food-value">100%</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-2">
+                        <div id="food-bar" class="progress-bar bg-yellow-500 h-2 rounded-full" style="width: 100%"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span><i class="fas fa-bolt text-blue-400 mr-1"></i> Énergie</span>
+                        <span id="energy-value">100%</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-2">
+                        <div id="energy-bar" class="progress-bar bg-blue-500 h-2 rounded-full" style="width: 100%"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span><i class="fas fa-laugh-beam text-green-400 mr-1"></i> Bonheur</span>
+                        <span id="happiness-value">100%</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-2">
+                        <div id="happiness-bar" class="progress-bar bg-green-500 h-2 rounded-full" style="width: 100%"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span><i class="fas fa-brain text-purple-400 mr-1"></i> XP</span>
+                        <span id="xp-value">0/100</span>
+                    </div>
+                    <div class="w-full bg-gray-700 rounded-full h-2">
+                        <div id="xp-bar" class="progress-bar bg-purple-500 h-2 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Boutons d'action -->
+            <div class="grid grid-cols-3 gap-3">
+                <button id="feed-btn" class="bg-yellow-600 hover:bg-yellow-500 text-white py-2 px-3 rounded-lg flex flex-col items-center text-xs">
+                    <i class="fas fa-utensils mb-1"></i>
+                    Nourrir
+                </button>
+                <button id="play-btn" class="bg-green-600 hover:bg-green-500 text-white py-2 px-3 rounded-lg flex flex-col items-center text-xs">
+                    <i class="fas fa-gamepad mb-1"></i>
+                    Jouer
+                </button>
+                <button id="sleep-btn" class="bg-blue-600 hover:bg-blue-500 text-white py-2 px-3 rounded-lg flex flex-col items-center text-xs">
+                    <i class="fas fa-moon mb-1"></i>
+                    Dormir
+                </button>
+                <button id="code-btn" class="bg-purple-600 hover:bg-purple-500 text-white py-2 px-3 rounded-lg flex flex-col items-center text-xs">
+                    <i class="fas fa-code mb-1"></i>
+                    Coder
+                </button>
+                <button id="clean-btn" class="bg-pink-600 hover:bg-pink-500 text-white py-2 px-3 rounded-lg flex flex-col items-center text-xs">
+                    <i class="fas fa-broom mb-1"></i>
+                    Nettoyer
+                </button>
+                <button id="heal-btn" class="bg-red-600 hover:bg-red-500 text-white py-2 px-3 rounded-lg flex flex-col items-center text-xs">
+                    <i class="fas fa-medkit mb-1"></i>
+                    Soigner
+                </button>
+            </div>
+
+            <!-- Boutons spéciaux -->
+            <div class="flex justify-between mt-4">
+                <button id="debug-btn" class="bg-gray-700 hover:bg-gray-600 text-xs py-1 px-3 rounded-full">
+                    <i class="fas fa-bug mr-1"></i>Debug
+                </button>
+                <button id="save-btn" class="bg-cyan-700 hover:bg-cyan-600 text-xs py-1 px-3 rounded-full">
+                    <i class="fas fa-save mr-1"></i>Sauvegarder
+                </button>
+                <button id="load-btn" class="bg-cyan-700 hover:bg-cyan-600 text-xs py-1 px-3 rounded-full">
+                    <i class="fas fa-folder-open mr-1"></i>Charger
+                </button>
+            </div>
+
+            <!-- Console de debug -->
+            <div id="debug-console" class="mt-4 bg-black text-green-400 font-mono text-xs p-2 rounded-lg h-24 overflow-y-auto hidden">
+                <div>System initialized...</div>
+            </div>
+        </div>
+
+        <!-- Crédits -->
+        <div class="text-center text-gray-500 text-xs mt-4">
+            Tamacodechi v1.0 - Le Tamagotchi des développeurs
+        </div>
+    </div>
+
+    <!-- Votre JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
